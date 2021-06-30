@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane alignment="center" hgap="10" prefHeight="720.0" prefWidth="1080.0" vgap="10"
+          xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller"
+
+>
+   <columnConstraints>
+      <ColumnConstraints maxWidth="-Infinity" minWidth="-Infinity" percentWidth="0.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <AnchorPane cache="true" cacheHint="QUALITY" prefHeight="681.0" prefWidth="797.0">
+         <children>
+            <BorderPane layoutX="379.0" layoutY="656.0">
+               <center>
+                  <Button mnemonicParsing="false" onAction="#down" text="아래">
+                     <tooltip>
+                        <Tooltip text="Empty Tooltip" />
+                     </tooltip>
+                  </Button>
+               </center>
+            </BorderPane>
+            <Button layoutX="139.0" layoutY="3.0" mnemonicParsing="false" onAction="#up" text="위" />
+            <Button layoutX="-3.0" layoutY="129.0" mnemonicParsing="false" onAction="#left" text="왼쪽" />
+            <Button layoutX="731.0" layoutY="129.0" mnemonicParsing="false" onAction="#right" text="오른쪽" />
+            <SplitMenuButton layoutX="8.0" layoutY="3.0" mnemonicParsing="false" text="SplitMenuButton">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </SplitMenuButton>
+            <TableView fx:id="table" layoutX="51.0" layoutY="40.0" prefHeight="607.0" prefWidth="663.0" tableMenuButtonVisible="true">
+              <columns>
+                <TableColumn fx:id="columnOne" prefWidth="75.0" text="테스트1" />
+                <TableColumn fx:id="columnTwo" prefWidth="75.0" text="테스트2" />
+              </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+            </TableView>
+         </children></AnchorPane>
+   </children>
+</GridPane>
