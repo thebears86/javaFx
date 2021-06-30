@@ -64,7 +64,7 @@ public class HomeController implements Initializable {
 
         } else if (mouseEvent.getSource() == btnSettings) {
 
-            fxml = FxmlScene.builder().url("/fxml/Timetable.fxml").build();
+            fxml = FxmlScene.builder().url("/fxml/replace/Layout.fxml").build();
             fxml.applicationPop();
             loadStage(fxml, mouseEvent);
 

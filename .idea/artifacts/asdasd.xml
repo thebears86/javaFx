@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="asdasd">
+    <output-path>$PROJECT_DIR$/out/artifacts/asdasd</output-path>
+    <root id="root">
+      <element id="archive" name="asdasd.jar">
+        <element id="module-output" name="asdasd" />
+      </element>
+    </root>
+  </artifact>
+</component>
