@@ -13,15 +13,18 @@
          <top>
             <AnchorPane prefHeight="67.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="btn1" onMouseClicked="#topMenuBtnClick" layoutX="297.0" layoutY="9.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="113.0" text="Button" />
-                  <Button fx:id="btn2" onMouseClicked="#topMenuBtnClick" layoutX="429.0" layoutY="9.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="113.0" text="Button" />
-                  <Button fx:id="btn3" onMouseClicked="#topMenuBtnClick" layoutX="561.0" layoutY="9.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="113.0" text="Button" />
+                  <Button fx:id="btn1" layoutX="297.0" layoutY="9.0" mnemonicParsing="false" onMouseClicked="#topMenuBtnClick" prefHeight="50.0" prefWidth="113.0" text="Button" />
+                  <Button fx:id="btn2" layoutX="429.0" layoutY="9.0" mnemonicParsing="false" onMouseClicked="#topMenuBtnClick" prefHeight="50.0" prefWidth="113.0" text="Button" />
+                  <Button fx:id="btn3" layoutX="561.0" layoutY="9.0" mnemonicParsing="false" onMouseClicked="#topMenuBtnClick" prefHeight="50.0" prefWidth="113.0" text="Button" />
 
-                  <Button id="show" onMouseClicked="#showBtnClick" fx:id="show" layoutX="14.0" layoutY="9.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="Show" />
-                  <Button id="hide" onMouseClicked="#hideBtnClick" fx:id="hide" layoutX="14.0" layoutY="9.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="hide" />
+                  <Button id="show" fx:id="show" layoutX="14.0" layoutY="9.0" mnemonicParsing="false" onMouseClicked="#showBtnClick" prefHeight="50.0" prefWidth="50.0" text="Show" />
+                  <Button id="hide" fx:id="hide" layoutX="14.0" layoutY="9.0" mnemonicParsing="false" onMouseClicked="#hideBtnClick" prefHeight="50.0" prefWidth="50.0" text="hide" />
                </children>
             </AnchorPane>
          </top>
+         <center>
+            <AnchorPane fx:id="context" prefHeight="733.0" prefWidth="1029.0" style="-fx-background-color: red;" BorderPane.alignment="CENTER" />
+         </center>
       </BorderPane>
    </children>
 

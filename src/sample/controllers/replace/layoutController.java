@@ -21,6 +21,7 @@ public class layoutController implements Initializable {
     @FXML public AnchorPane leftMenu;
     @FXML public Button show;
     @FXML public Button hide;
+    @FXML public AnchorPane context;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -56,6 +57,14 @@ public class layoutController implements Initializable {
         slide.play();
 
         leftMenu.setTranslateX(-200);
+
+        TranslateTransition slideContext = new TranslateTransition();
+        slideContext.setDuration(Duration.millis(300L));
+        slideContext.setNode(context);
+        slideContext.setToX(0);
+        slideContext.play();
+
+        context.setTranslateX(200);
 
         slide.setOnFinished(slideEvent -> {
             hide.setVisible(true);

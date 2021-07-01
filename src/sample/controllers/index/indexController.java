@@ -2,13 +2,21 @@ package sample.controllers.index;
 
 import animatefx.animation.ZoomIn;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.Objects;
 
 public class indexController {
 
@@ -23,8 +31,18 @@ public class indexController {
     public Button btnSignIn;
 
 
-    public void login(ActionEvent event){
-
+    public void login(MouseEvent event){
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Home.fxml")));
+            Stage primaryStage = new Stage();
+            primaryStage.setTitle("KeepToo SMSys");
+            primaryStage.getIcons().add(new Image("/resources/icons/icon.png"));
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
