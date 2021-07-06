@@ -47,7 +47,7 @@ public class HomeController implements Initializable {
         if (mouseEvent.getSource() == btnDashboard) {
 
             fxml = FxmlScene.builder().url("/fxml/Dashboard.fxml").build();
-            fxml.applicationPop();
+            fxml.windowPop();
             loadStage(fxml, mouseEvent);
 
         } else if (mouseEvent.getSource() == btnStudents) {

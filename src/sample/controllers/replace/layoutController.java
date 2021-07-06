@@ -6,7 +6,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
+import model.FxmlScene;
+import sample.FxmlLoader;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,6 +25,7 @@ public class layoutController implements Initializable {
     @FXML public Button show;
     @FXML public Button hide;
     @FXML public AnchorPane context;
+    @FXML public BorderPane rootPane;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -36,16 +40,26 @@ public class layoutController implements Initializable {
         showLeftMenu();
     }
 
-    public void topMenuBtnClick(MouseEvent actionEvent) {
+    public void btn1Action(MouseEvent actionEvent){
 
-        if(show.isVisible()){
-            showLeftMenu();
-        }else{
-            hideLeftMenu();
-        }
+        FxmlScene url = FxmlScene.builder().url("/fxml/replace/content1.fxml").build();
 
+        rootPane.setCenter(new FxmlLoader().getPage(url));
     }
 
+    public void btn2Action(MouseEvent actionEvent){
+
+        FxmlScene url = FxmlScene.builder().url("/fxml/replace/content2.fxml").build();
+
+        rootPane.setCenter(new FxmlLoader().getPage(url));
+    }
+
+    public void btn3Action(MouseEvent actionEvent){
+
+        FxmlScene url = FxmlScene.builder().url("/fxml/replace/content3.fxml").build();
+
+        rootPane.setCenter(new FxmlLoader().getPage(url));
+    }
 
 
     private void showLeftMenu() {
