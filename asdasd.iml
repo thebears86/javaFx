@@ -20,12 +20,8 @@
     <orderEntry type="library" name="org.kordamp.bootstrapfx:bootstrapfx-core:0.4.0" level="project" />
     <orderEntry type="library" name="com.calendarfx:view:11.10.1" level="project" />
     <orderEntry type="library" name="de.jensd:fontawesomefx:8.9" level="project" />
-    <orderEntry type="library" name="org.openjfx:javafx-controls:16" level="project" />
-    <orderEntry type="library" name="org.openjfx:javafx-base:16" level="project" />
-    <orderEntry type="library" name="org.openjfx:javafx-graphics:16" level="project" />
-    <orderEntry type="library" name="org.openjfx:javafx-fxml:16" level="project" />
-    <orderEntry type="library" name="org.openjfx:javafx-maven-plugin:0.0.6" level="project" />
     <orderEntry type="library" name="io.github.typhon0:AnimateFX:1.2.1" level="project" />
     <orderEntry type="library" name="com.jfoenix:jfoenix:9.0.10" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>
