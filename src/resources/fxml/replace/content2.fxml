@@ -13,5 +13,5 @@
             <Label>
                     content2
             </Label>
-    <Button fx:id="changedBtn" onMouseClicked="#changedBtnAction" layoutX="274.0" layoutY="189.0" mnemonicParsing="false" text="Button" />
+    <Button fx:id="changedBtn" onAction="#changedBtnAction" layoutX="274.0" layoutY="189.0" mnemonicParsing="false" text="Button" />
 </AnchorPane>

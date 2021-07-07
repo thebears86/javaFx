@@ -3,6 +3,7 @@ package sample.controllers.index;
 import animatefx.animation.ZoomIn;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -14,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -36,10 +38,16 @@ public class indexController {
         try {
             root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Home.fxml")));
             Stage primaryStage = new Stage();
+            Stage loginStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            loginStage.close();
+
             primaryStage.setTitle("KeepToo SMSys");
             primaryStage.getIcons().add(new Image("/resources/icons/icon.png"));
             primaryStage.setScene(new Scene(root));
+
             primaryStage.show();
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }

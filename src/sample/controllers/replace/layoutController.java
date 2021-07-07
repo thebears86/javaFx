@@ -43,7 +43,6 @@ public class layoutController implements Initializable {
     public void btn1Action(MouseEvent actionEvent){
 
         FxmlScene url = FxmlScene.builder().url("/fxml/replace/content1.fxml").build();
-
         rootPane.setCenter(new FxmlLoader().getPage(url));
     }
 
@@ -55,6 +54,7 @@ public class layoutController implements Initializable {
     }
 
     public void btn3Action(MouseEvent actionEvent){
+
 
         FxmlScene url = FxmlScene.builder().url("/fxml/replace/content3.fxml").build();
 

@@ -27,17 +27,8 @@ public class Main extends Application {
         Font.loadFont(getClass().getResourceAsStream("/font/NanumSquareR.ttf"), 10);
         Font.loadFont(getClass().getResourceAsStream("/font/NanumGothic.ttf"), 10);
 
-
-
-
-        /*Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Home.fxml")));
-        primaryStage.setTitle("KeepToo SMSys");
-        primaryStage.getIcons().add(new Image("/resources/icons/icon.png"));
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();*/
-
-
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/index/Index.fxml")));
+
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.initStyle(StageStyle.TRANSPARENT);
@@ -55,30 +46,6 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         new animatefx.animation.FadeIn(root).play();
         primaryStage.show();
-
-
-        /*
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("resources.fxml")));
-
-        //Scene deptOne = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample2.fxml")));
-
-        primaryStage.setTitle("Hello World");
-
-        Scene scene = new Scene(root, 1080, 1024);
-        scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
-        primaryStage.setScene(scene);
-
-        //primaryStage.setFullScreen(true);
-        //primaryStage.setFullScreenExitHint("EXIT");
-        //primaryStage.setFullScreenExitKeyCombination(KeyCombination.keyCombination("q"));
-
-        primaryStage.show();
-
-        FXMLLoader load = new FXMLLoader();
-        load.setLocation(getClass().getResource("sample2.fxml"));
-
-        AnchorPane pane = load.load();*/
-
 
     }
 
