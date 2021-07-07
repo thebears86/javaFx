@@ -93,11 +93,14 @@ public class HomeController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        String userInfo = location.getUserInfo();
+
     }
 
     private void loadStage(FxmlScene fxml , ActionEvent event){
 
         try {
+
             root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxml.getUrl())));
 
             if(fxml.isPop()){

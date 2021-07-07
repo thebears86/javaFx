@@ -1,15 +1,18 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.StringWriter;
 import java.util.Objects;
 
 public class Main extends Application {
@@ -22,6 +25,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+
+        Thread.setDefaultUncaughtExceptionHandler(Main::showError);
+
+
+
+
 
         System.setProperty("prism.lcdtext", "false"); // 폰트파일 로드전에 실행
         Font.loadFont(getClass().getResourceAsStream("/font/NanumSquareR.ttf"), 10);
@@ -53,4 +62,23 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+    private static void showError(Thread t, Throwable e) {
+        System.err.println("***Default exception handler***");
+        if (Platform.isFxApplicationThread()) {
+            errorAlert(e);
+        } else {
+            System.err.println("An unexpected error occurred in "+t);
+        }
+    }
+
+    private static void errorAlert(Throwable e) {
+
+        e.printStackTrace();
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setContentText(e.getLocalizedMessage());
+        alert.showAndWait();
+
+    }
+
 }

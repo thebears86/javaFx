@@ -1,11 +1,10 @@
 package sample.controllers.replace;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import sample.controllers.DataController;
 import sample.listener.CommonChangeListener;
 import sample.listener.TextFieldListener;
 
@@ -13,7 +12,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-public class content1Controller implements Initializable {
+public class Content1Controller extends DataController {
 
     @FXML public Button changedBtn;
     @FXML public DatePicker datePicker;
@@ -21,7 +20,13 @@ public class content1Controller implements Initializable {
     @FXML public ToggleButton toggle;
     @FXML public MenuButton menuBtn;
 
+    @Override
+    public void initData(Object o) {
 
+        String data = (String) o;
+        changedBtn.setText(data);
+
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -45,11 +50,16 @@ public class content1Controller implements Initializable {
 
     public void changedBtnAction(ActionEvent event) {
 
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+
+
+
+        throw new IllegalArgumentException("asdasda");
+
+     /*   Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("좆까");
         alert.setContentText("테스트");
         alert.showAndWait();
-
+*/
     }
 
 

@@ -2,19 +2,23 @@ package sample.controllers.replace;
 
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import model.FxmlScene;
 import sample.FxmlLoader;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class layoutController implements Initializable {
+public class LayoutController implements Initializable {
 
     @FXML public Button menu;
     @FXML public Button btn1;
@@ -40,16 +44,28 @@ public class layoutController implements Initializable {
         showLeftMenu();
     }
 
-    public void btn1Action(MouseEvent actionEvent){
+    public void btn1Action(MouseEvent actionEvent) throws IOException {
 
-        FxmlScene url = FxmlScene.builder().url("/fxml/replace/content1.fxml").build();
-        rootPane.setCenter(new FxmlLoader().getPage(url));
+        FxmlScene fxmlScene = FxmlScene.builder().url("/fxml/replace/content1.fxml").build();
+
+        FXMLLoader loader = new FXMLLoader();
+        URL url = Objects.requireNonNull(getClass().getResource(fxmlScene.getUrl()));
+        loader.setLocation(url);
+
+        rootPane.setCenter(loader.load());
+
+        /*
+         * FXMLLoader.load() 이후에 컨트롤러에 접근가능하다.
+         * load 이전에 호출하면 NullPointerException 발생.
+         */
+        Content1Controller controller = loader.getController();
+        controller.initData("TESTDATA");
+
     }
 
     public void btn2Action(MouseEvent actionEvent){
 
         FxmlScene url = FxmlScene.builder().url("/fxml/replace/content2.fxml").build();
-
         rootPane.setCenter(new FxmlLoader().getPage(url));
     }
 

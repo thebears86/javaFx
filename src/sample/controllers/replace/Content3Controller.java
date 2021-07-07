@@ -5,7 +5,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 
-public class content2Controller {
+public class Content3Controller {
     @FXML public Button changedBtn;
 
     public void changedBtnAction(MouseEvent actionEvent){
