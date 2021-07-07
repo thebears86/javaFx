@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import sample.listener.CommonChangeListener;
+import sample.listener.TextFieldListener;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -32,14 +33,13 @@ public class content1Controller implements Initializable {
          */
 
         datePicker.valueProperty().addListener(CommonChangeListener.isPast);
+        textField.textProperty().addListener(new TextFieldListener(this.textField));
 
-        /*datePicker.valueProperty().addListener(new ChangeListener<LocalDate>() {
-            @Override
-            public void changed(ObservableValue<? extends LocalDate> observableValue, LocalDate oldValue, LocalDate newValue) {
-                System.out.println("observableValue = " + observableValue + ", oldValue = " + oldValue + ", newValue = " + newValue);
-            }
-        });*/
+        MenuItem menuItem = new MenuItem();
+        menuItem.setText("AddCustom");
+        menuItem.setDisable(true);
 
+        menuBtn.getItems().add(menuItem);
 
     }
 

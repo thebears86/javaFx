@@ -8,10 +8,12 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="sample.controllers.replace.content1Controller"
-            prefHeight="400.0" prefWidth="600.0">
+            fx:controller="sample.controllers.replace.content3Controller"
+            prefHeight="400.0" prefWidth="600.0"
+            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
+>
             <Label>
                     content3
             </Label>
-    <Button fx:id="changedBtn" onAction="#changedBtnAction" layoutX="274.0" layoutY="189.0" mnemonicParsing="false" text="Button" />
+    <Button fx:id="changedBtn" layoutX="274.0" layoutY="189.0" mnemonicParsing="false" text="Button" />
 </AnchorPane>
