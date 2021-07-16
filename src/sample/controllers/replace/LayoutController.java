@@ -12,9 +12,12 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import model.FxmlScene;
 import sample.FxmlLoader;
+import sample.model.ContentExtendType;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -63,10 +66,43 @@ public class LayoutController implements Initializable {
 
     }
 
-    public void btn2Action(MouseEvent actionEvent){
+    public void btn2Action(MouseEvent actionEvent) throws IOException {
 
-        FxmlScene url = FxmlScene.builder().url("/fxml/replace/content2.fxml").build();
-        rootPane.setCenter(new FxmlLoader().getPage(url));
+        FxmlScene fxmlScene = FxmlScene.builder().url("/fxml/replace/content2.fxml").build();
+        FXMLLoader loader = new FXMLLoader();
+        URL url = Objects.requireNonNull(getClass().getResource(fxmlScene.getUrl()));
+        loader.setLocation(url);
+
+        rootPane.setCenter(loader.load());
+
+        /*
+         * FXMLLoader.load() 이후에 컨트롤러에 접근가능하다.
+         * load 이전에 호출하면 NullPointerException 발생.
+         */
+        Content2Controller controller = loader.getController();
+
+        List<ContentExtendType> list = new ArrayList<>();
+
+        for(long i = 0 ; i < 10000 ; i++){
+
+            list.add(
+                    ContentExtendType.builder()
+                            .rowNum(i)
+                            .isbn("isbn"+i)
+                            .publisher("publisher"+i)
+                            .data1("data1"+i)
+                            .bookName("bookName"+i)
+                            .content1("content1_"+i)
+                            .content2("content2_"+i)
+                            .content3("content3_"+i)
+                            .content4("content4_"+i)
+                            .content5("content5_"+i)
+                            .content6("content6_"+i)
+                            .build()
+            );
+        }
+
+        controller.initData(list);
     }
 
     public void btn3Action(MouseEvent actionEvent){

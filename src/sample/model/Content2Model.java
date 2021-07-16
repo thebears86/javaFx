@@ -21,7 +21,7 @@ public class Content2Model {
     private ObjectProperty<LocalDate> regDate;
     private ObjectProperty<LocalTime> regTime;
 
-    @Builder
+
     public Content2Model(long rowNum, String isbn, String bookName, String publisher, String data1) {
         this.rowNum = new SimpleObjectProperty<Long>(rowNum);
         this.isbn = new SimpleStringProperty(isbn);
