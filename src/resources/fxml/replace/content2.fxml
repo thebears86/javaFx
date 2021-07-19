@@ -88,7 +88,7 @@
                            <contextMenu>
                               <ContextMenu>
                                 <items>
-                                  <MenuItem mnemonicParsing="false" text="111" />
+                                    <MenuItem fx:id="contextFile" onAction="#loadFile" mnemonicParsing="false" text="111" />
                                     <MenuItem mnemonicParsing="false" text="Unspecified Action" />
                                     <MenuItem mnemonicParsing="false" text="Unspecified Action" />
                                     <MenuItem mnemonicParsing="false" text="Unspecified Action" />
