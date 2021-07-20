@@ -10,6 +10,7 @@ import sample.listener.TextFieldListener;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class Content1Controller extends DataController {
@@ -25,6 +26,11 @@ public class Content1Controller extends DataController {
 
         String data = (String) o;
         changedBtn.setText(data);
+
+    }
+
+    @Override
+    public void initListData(List<?> o) {
 
     }
 

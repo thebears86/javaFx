@@ -13,6 +13,9 @@ import java.time.LocalTime;
 @NoArgsConstructor
 public class Content2Model {
 
+    private boolean isEditable = true;
+
+
     private ObjectProperty<Long> rowNum;
     private StringProperty isbn;
     private StringProperty bookName;
@@ -20,6 +23,14 @@ public class Content2Model {
     private StringProperty data1;
     private ObjectProperty<LocalDate> regDate;
     private ObjectProperty<LocalTime> regTime;
+
+    private void editableChange(){
+
+        /*
+         * 내부 값들에 의해서 편집여부가 결정될때 사용.
+         */
+        this.isEditable = true;
+    }
 
 
     public Content2Model(long rowNum, String isbn, String bookName, String publisher, String data1) {

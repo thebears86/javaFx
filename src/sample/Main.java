@@ -75,8 +75,21 @@ public class Main extends Application {
     private static void errorAlert(Throwable e) {
 
         e.printStackTrace();
+
+        System.out.println(e.getMessage());
+        System.out.println("===================================================");
+        System.out.println(e.getCause().getMessage());
+        System.out.println("===================================================");
+        System.out.println(e.getCause().getCause().getMessage());
+        System.out.println("===================================================");
+        System.out.println(e.getLocalizedMessage());
+        System.out.println("===================================================");
+        System.out.println(e.getCause().getLocalizedMessage());
+
+
+
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setContentText(e.getLocalizedMessage());
+        alert.setContentText(e.getCause().getCause().getMessage());
         alert.showAndWait();
 
     }

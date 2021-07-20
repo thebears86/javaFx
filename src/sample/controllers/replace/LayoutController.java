@@ -102,7 +102,7 @@ public class LayoutController implements Initializable {
             );
         }
 
-        controller.initData(list);
+        controller.initListData(list);
     }
 
     public void btn3Action(MouseEvent actionEvent){
