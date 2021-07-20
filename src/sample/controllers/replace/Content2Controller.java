@@ -1,19 +1,15 @@
 package sample.controllers.replace;
 
-import javafx.beans.InvalidationListener;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.ComboBoxTableCell;
-import javafx.scene.control.cell.ProgressBarTableCell;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.stage.FileChooser;
 import sample.common.ExcelValidator;
+import sample.common.TableCopyAndPasteUtils;
 import sample.controllers.DataController;
 import sample.model.Content2Model;
 import sample.model.ContentExtendType;
@@ -43,6 +39,54 @@ public class Content2Controller extends DataController {
 
     @FXML public TableView<ContentExtendType> tab3Table;
 
+    @FXML public MenuItem copyMenu;
+
+    private void addMenu(TableView tableView){
+
+        MenuItem selectMode = new MenuItem("선택모드 변경");
+        selectMode.setOnAction(event -> {
+
+            if(tab3Table.getSelectionModel().isCellSelectionEnabled()){
+
+                tab3Table.getSelectionModel().setCellSelectionEnabled(false);
+                selectMode.setText("셀선택");
+            }else{
+                tab3Table.getSelectionModel().setCellSelectionEnabled(true);
+                selectMode.setText("줄선택");
+            }
+
+        });
+
+        MenuItem item = new MenuItem("Copy cell");
+        item.setOnAction(event -> {
+            TableCopyAndPasteUtils.copySelectionToClipboard(tableView);
+        });
+        item.setAccelerator(new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN));//don't work on ContextMenu but keep is for the display text
+
+        MenuItem export = new MenuItem("Copy table (csv)");
+        export.setOnAction(event -> {
+            //exportTableToClipboard(createCsvFromTable.get());
+        });
+
+
+
+
+        MenuItem fileExport = new MenuItem("Save table (csv)");
+        fileExport.setOnAction(event -> {
+            //exportTableToFile(createCsvFromTable.get(),tableView.getScene().getWindow());
+        });
+
+        ContextMenu menu = new ContextMenu();
+        menu.getItems().add(selectMode);
+        menu.getItems().add(item);
+        menu.getItems().add(export);
+        menu.getItems().add(fileExport);
+        tableView.setContextMenu(menu);
+
+    }
+
+
+
     @Override
     public void initListData(List<?> list) {
 
@@ -64,8 +108,8 @@ public class Content2Controller extends DataController {
 
     }
 
-    public void dblClick(){
-        tab3Table.setEditable(true);
+    public void changeTableEditMode(boolean t){
+        tab3Table.setEditable(t);
     }
 
 
@@ -73,44 +117,67 @@ public class Content2Controller extends DataController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        /*
+         * Set Context Menu Config
+         */
+        addMenu(tab3Table);
+
+        /*
+         * Set Table Cell Config
+         */
         rowNum.setCellValueFactory      (cellData -> cellData.getValue().getRowNum());
 
         isbn.setCellValueFactory        (cellData -> cellData.getValue().getIsbn());
+        //수정가능한 셀을 위한 TextField Set
         isbn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-
         bookName.setCellValueFactory    (cellData -> cellData.getValue().getBookName());
+        //수정가능한 셀을 위한 TextField Set
         bookName.setCellFactory(TextFieldTableCell.forTableColumn());
 
         publisher.setCellValueFactory   (cellData -> cellData.getValue().getPublisher());
+        //수정가능한 셀을 위한 TextField Set
         publisher.setCellFactory(TextFieldTableCell.forTableColumn());
 
         data1.setCellValueFactory       (cellData -> cellData.getValue().getData1());
-
         regDate.setCellValueFactory     (cellData -> cellData.getValue().getRegDate());
-
         regTime.setCellValueFactory     (cellData -> cellData.getValue().getRegTime());
 
-
-
-
+        /*
+         * Set TableView Config
+         */
         tab3Table.setOnMouseClicked(cellEditHandler());
-        tab3Table.setOnKeyReleased(keyEventEventHandler());
+        //테이블 Copy & Paste 이벤트 설정.
+        TableCopyAndPasteUtils.installCopyPasteHandler(tab3Table);
 
+        //Cell 수정 후 TableView 다시 포커스 이벤트 설정.
         tab3Table.getColumns().forEach(x->{
-            x.addEventHandler(TableColumn.CellEditEvent.ANY , event -> editResume());
+            x.addEventHandler(TableColumn.CellEditEvent.ANY , event -> tableFocusResume());
         });
-
-
+        //테이블 선택모드 셋팅
+        tab3Table.getSelectionModel().setCellSelectionEnabled(true);
 
     }
+
+
 
     public EventHandler<MouseEvent> cellEditHandler(){
         return new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
 
-                tab3Table.getSelectionModel().setCellSelectionEnabled(false);
+                if(event.isShiftDown()){
+                    extractedSelectedMulti();
+                    event.consume();
+                }else{
+                    tab3Table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+                }
+
+                /*
+                 * 테이블 선택모드가 Row 단위일때 : false
+                 * 선택모드가 Cell 단위일때 : true
+                 */
+                //tab3Table.getSelectionModel().setCellSelectionEnabled(false);
 
                 /*
                  * 더블클릭시에 편집모드 진입
@@ -118,34 +185,41 @@ public class Content2Controller extends DataController {
                 if(event.getClickCount() >= 2){
                     ContentExtendType selectedItem = tab3Table.getSelectionModel().getSelectedItem();
                     if(selectedItem.isEditable()){
-                        dblClick();
+                        changeTableEditMode(true);
                     }
                 }
             }
         };
     }
 
+    private void extractedSelectedMulti() {
 
+        changeTableEditMode(false);
+        //tab3Table.getSelectionModel().setCellSelectionEnabled(true);
+        tab3Table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
+        final int idx = tab3Table.getSelectionModel().getFocusedIndex();
 
+        if(idx >= 0 && idx < tab3Table.getItems().size()){
+
+            if(tab3Table.getSelectionModel().isSelected(idx)){
+                tab3Table.getSelectionModel().clearSelection(idx);
+            }
+        }
+    }
 
     public EventHandler<KeyEvent> keyEventEventHandler(){
         return new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
-
-                tab3Table.getSelectionModel().setCellSelectionEnabled(true);
-
-
-
-                if(keyEvent.getCode().isWhitespaceKey()){
-
+                if(keyEvent.getCode().isArrowKey()){
+                    //tab3Table.getSelectionModel().setCellSelectionEnabled(true);
+                    keyEvent.consume();
                 }
+                /*if(copy.match(keyEvent)){
+                    copySelectionToClipboard(tab3Table);
+                }*/
 
-
-
-
-                System.out.println(keyEvent.getEventType());
             }
         };
     }
@@ -173,9 +247,10 @@ public class Content2Controller extends DataController {
 
 
 
-    public void editResume() {
-
+    public void tableFocusResume() {
         tab3Table.requestFocus();
-
     }
+
+
+
 }

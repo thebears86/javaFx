@@ -85,17 +85,7 @@
                               <TableColumn fx:id="content5" prefWidth="75.0" text="C12" />
                               <TableColumn fx:id="content6" prefWidth="75.0" text="C13" />
                           </columns>
-                           <contextMenu>
-                              <ContextMenu>
-                                <items>
-                                    <MenuItem fx:id="contextFile" onAction="#loadFile" mnemonicParsing="false" text="111" />
-                                    <MenuItem mnemonicParsing="false" text="Unspecified Action" />
-                                    <MenuItem mnemonicParsing="false" text="Unspecified Action" />
-                                    <MenuItem mnemonicParsing="false" text="Unspecified Action" />
-                                    <MenuItem mnemonicParsing="false" text="Unspecified Action" />
-                                </items>
-                              </ContextMenu>
-                           </contextMenu>
+
                         </TableView>
                      </children>
                   </AnchorPane>
