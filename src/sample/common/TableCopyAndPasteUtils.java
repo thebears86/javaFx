@@ -2,11 +2,11 @@ package sample.common;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
@@ -15,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.time.LocalDate;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
@@ -46,38 +45,88 @@ public class TableCopyAndPasteUtils {
 
         KeyCodeCombination copy = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN);
         KeyCodeCombination paste = new KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_DOWN);
+        KeyCodeCombination toEndLeft = new KeyCodeCombination(KeyCode.LEFT, KeyCombination.CONTROL_DOWN , KeyCombination.SHIFT_DOWN);
+        KeyCodeCombination toEndRight = new KeyCodeCombination(KeyCode.RIGHT, KeyCombination.CONTROL_DOWN , KeyCombination.SHIFT_DOWN);
+        KeyCodeCombination toEndTop = new KeyCodeCombination(KeyCode.UP, KeyCombination.CONTROL_DOWN , KeyCombination.SHIFT_DOWN);
+        KeyCodeCombination toEndBottom = new KeyCodeCombination(KeyCode.DOWN, KeyCombination.CONTROL_DOWN , KeyCombination.SHIFT_DOWN);
+
+        @SuppressWarnings("rawtypes")
+        private void moveToEnd(TableView tableView, KeyEvent event ){
+
+            int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
+            boolean isCellMode = tableView.getSelectionModel().isCellSelectionEnabled();
+            int targetIdx;
+            TablePosition position = (TablePosition) tableView.getSelectionModel().getSelectedCells().get(0);
+            TableColumn column = position.getTableColumn();
+
+
+
+            if(toEndBottom.match(event)){
+
+                targetIdx = tableView.getItems().size();
+
+                moveCellSelect(tableView, isCellMode, targetIdx, column);
+
+            }
+            else if(toEndTop.match(event)){
+                targetIdx = 1;
+                moveCellSelect(tableView, isCellMode, targetIdx, column);
+            }
+            else if(toEndLeft.match(event)){
+                targetIdx = selectedIndex;
+                TableColumn firstColumn = (TableColumn) tableView.getColumns().get(0);
+                moveCellSelect(tableView, isCellMode, targetIdx, firstColumn);
+            }
+            else if(toEndRight.match(event)){
+                targetIdx = selectedIndex;
+                TableColumn lastColumn = (TableColumn) tableView.getColumns().get(tableView.getColumns().size()-1);
+                moveCellSelect(tableView, isCellMode, targetIdx, lastColumn);
+            }
+
+            event.consume();
+        }
 
         public void handle(final KeyEvent keyEvent) {
 
             if (copy.match(keyEvent)) {
-
                 if( keyEvent.getSource() instanceof TableView) {
-
                     // copy to clipboard
                     copySelectionToClipboard( (TableView<?>) keyEvent.getSource());
-
                     // event is handled, consume it
                     keyEvent.consume();
-
                 }
-
             }
             else if (paste.match(keyEvent)) {
-
                 if( keyEvent.getSource() instanceof TableView) {
-
                     // copy to clipboard
                     pasteFromClipboard( (TableView<?>) keyEvent.getSource());
-
                     // event is handled, consume it
                     keyEvent.consume();
+                }
+            }else if(keyEvent.isShiftDown() && keyEvent.isControlDown()){
 
+                if( keyEvent.getSource() instanceof TableView) {
+                    moveToEnd((TableView<?>) keyEvent.getSource() , keyEvent);
+                    keyEvent.consume();
                 }
 
             }
 
         }
 
+    }
+
+    @SuppressWarnings("rawtypes")
+    private static void moveCellSelect(TableView tableView, boolean isCellMode, int targetIdx, TableColumn column) {
+
+        if (isCellMode) {
+            tableView.getSelectionModel().select(targetIdx, column);
+
+        } else {
+            tableView.getSelectionModel().select(targetIdx);
+        }
+        tableView.scrollTo(targetIdx);
+        tableView.getSelectionModel().focus(targetIdx);
     }
 
     /**

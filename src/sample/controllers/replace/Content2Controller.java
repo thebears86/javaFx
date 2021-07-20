@@ -9,6 +9,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.*;
 import javafx.stage.FileChooser;
 import sample.common.ExcelValidator;
+import sample.common.TableCommonMenuProvider;
 import sample.common.TableCopyAndPasteUtils;
 import sample.controllers.DataController;
 import sample.model.Content2Model;
@@ -40,51 +41,6 @@ public class Content2Controller extends DataController {
     @FXML public TableView<ContentExtendType> tab3Table;
 
     @FXML public MenuItem copyMenu;
-
-    private void addMenu(TableView tableView){
-
-        MenuItem selectMode = new MenuItem("선택모드 변경");
-        selectMode.setOnAction(event -> {
-
-            if(tab3Table.getSelectionModel().isCellSelectionEnabled()){
-
-                tab3Table.getSelectionModel().setCellSelectionEnabled(false);
-                selectMode.setText("셀선택");
-            }else{
-                tab3Table.getSelectionModel().setCellSelectionEnabled(true);
-                selectMode.setText("줄선택");
-            }
-
-        });
-
-        MenuItem item = new MenuItem("Copy cell");
-        item.setOnAction(event -> {
-            TableCopyAndPasteUtils.copySelectionToClipboard(tableView);
-        });
-        item.setAccelerator(new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN));//don't work on ContextMenu but keep is for the display text
-
-        MenuItem export = new MenuItem("Copy table (csv)");
-        export.setOnAction(event -> {
-            //exportTableToClipboard(createCsvFromTable.get());
-        });
-
-
-
-
-        MenuItem fileExport = new MenuItem("Save table (csv)");
-        fileExport.setOnAction(event -> {
-            //exportTableToFile(createCsvFromTable.get(),tableView.getScene().getWindow());
-        });
-
-        ContextMenu menu = new ContextMenu();
-        menu.getItems().add(selectMode);
-        menu.getItems().add(item);
-        menu.getItems().add(export);
-        menu.getItems().add(fileExport);
-        tableView.setContextMenu(menu);
-
-    }
-
 
 
     @Override
@@ -120,7 +76,7 @@ public class Content2Controller extends DataController {
         /*
          * Set Context Menu Config
          */
-        addMenu(tab3Table);
+        TableCommonMenuProvider.addContextMenu(tab3Table);
 
         /*
          * Set Table Cell Config
@@ -155,7 +111,7 @@ public class Content2Controller extends DataController {
             x.addEventHandler(TableColumn.CellEditEvent.ANY , event -> tableFocusResume());
         });
         //테이블 선택모드 셋팅
-        tab3Table.getSelectionModel().setCellSelectionEnabled(true);
+        //tab3Table.getSelectionModel().setCellSelectionEnabled(true);
 
     }
 
@@ -212,6 +168,7 @@ public class Content2Controller extends DataController {
         return new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
+
                 if(keyEvent.getCode().isArrowKey()){
                     //tab3Table.getSelectionModel().setCellSelectionEnabled(true);
                     keyEvent.consume();
