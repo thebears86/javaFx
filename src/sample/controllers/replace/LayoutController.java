@@ -4,6 +4,7 @@ import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -12,6 +13,8 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import model.FxmlScene;
 import sample.FxmlLoader;
+import sample.common.ThreadUtils;
+import sample.common.stringEnums.ThreadNames;
 import sample.model.ContentExtendType;
 
 import java.io.IOException;
@@ -37,6 +40,31 @@ public class LayoutController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         hideLeftMenu();
+
+
+    }
+
+    private void addProgressListener(BorderPane pane) {
+        pane.getCenter().sceneProperty().addListener(((observableValue, oldScene, newScene) -> {
+
+            if(newScene == null){
+
+                Thread threadByName = ThreadUtils.getThreadByName(ThreadNames.fx_th_progress.name());
+                if(threadByName != null){
+                    threadByName.interrupt();
+                }
+
+            }else{
+                if(oldScene != newScene){
+                    Thread threadByName = ThreadUtils.getThreadByName(ThreadNames.fx_th_progress.name());
+                    if(threadByName != null){
+                        if(threadByName.isAlive()){
+                            threadByName.interrupt();
+                        }
+                    }
+                }
+            }
+        }));
     }
 
     public void hideBtnClick(MouseEvent actionEvent) {
@@ -67,6 +95,10 @@ public class LayoutController implements Initializable {
     }
 
     public void btn2Action(MouseEvent actionEvent) throws IOException {
+
+        //addProgressListener(rootPane);
+
+        System.gc();
 
         FxmlScene fxmlScene = FxmlScene.builder().url("/fxml/replace/content2.fxml").build();
         FXMLLoader loader = new FXMLLoader();

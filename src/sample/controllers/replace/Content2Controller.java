@@ -1,26 +1,37 @@
 package sample.controllers.replace;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Window;
+import javafx.stage.WindowEvent;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ThreadUtils;
 import sample.common.ExcelValidator;
 import sample.common.TableCommonMenuProvider;
 import sample.common.TableCopyAndPasteUtils;
+import sample.common.stringEnums.ThreadNames;
 import sample.controllers.DataController;
 import sample.model.Content2Model;
 import sample.model.ContentExtendType;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
+@Slf4j
 public class Content2Controller extends DataController {
     @FXML public Button changedBtn;
     @FXML public TableColumn<Content2Model , Long> rowNum;
@@ -41,7 +52,10 @@ public class Content2Controller extends DataController {
     @FXML public TableView<ContentExtendType> tab3Table;
 
     @FXML public MenuItem copyMenu;
+    @FXML public ProgressBar progressBar;
+    @FXML public AnchorPane topAnchorPane;
 
+    private Thread th;
 
     @Override
     public void initListData(List<?> list) {
@@ -113,6 +127,15 @@ public class Content2Controller extends DataController {
         //테이블 선택모드 셋팅
         //tab3Table.getSelectionModel().setCellSelectionEnabled(true);
 
+        progressAuto();
+/*
+        Scene scene = this.topAnchorPane.set
+
+
+
+        System.out.println("window.toString() = " + scene.toString());
+
+ */
     }
 
 
@@ -201,13 +224,53 @@ public class Content2Controller extends DataController {
 
     }
 
-
-
-
     public void tableFocusResume() {
         tab3Table.requestFocus();
     }
 
 
+    public void progressAuto(){
 
+        /*Thread th = Thread.*/
+        Collection<Thread> next = getNext();
+        if (next.iterator().hasNext()){
+            next.iterator().forEachRemaining(Thread::interrupt);
+        }
+        th = new Thread(ThreadNames.fx_th_progress.name()){
+
+            boolean isRun = true;
+
+            @Override
+            public void run() {
+                while (isRun){
+                    Platform.runLater(()->{
+                        LocalTime localTime = LocalTime.now();
+                        int second = localTime.getSecond() + 1;
+                        double percent = new BigDecimal(second).doubleValue() / 60;
+                        progressBar.setProgress(percent);
+
+                    });
+
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e){
+                        //e.printStackTrace();
+                        this.isRun = false;
+                    }
+                }
+            }
+
+            @Override
+            public void interrupt() {
+                super.interrupt();
+                this.isRun = false;
+                log.info(ThreadNames.fx_th_progress.name() + " is interrupted.");
+            }
+        };
+        th.start();
+
+    }
+    private Collection<Thread> getNext() {
+        return ThreadUtils.findThreadsByName(ThreadNames.fx_th_progress.name());
+    }
 }

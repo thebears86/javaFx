@@ -117,7 +117,7 @@ public class TableCopyAndPasteUtils {
     }
 
     @SuppressWarnings("rawtypes")
-    private static void moveCellSelect(TableView tableView, boolean isCellMode, int targetIdx, TableColumn column) {
+    private static void moveCellSelect(TableView<?> tableView, boolean isCellMode, int targetIdx, TableColumn column) {
 
         if (isCellMode) {
             tableView.getSelectionModel().select(targetIdx, column);

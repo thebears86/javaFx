@@ -9,10 +9,9 @@ import javafx.scene.input.KeyCombination;
 
 public class TableCommonMenuProvider {
 
-    public static ContextMenu addContextMenu(TableView tableView){
+    public static void addContextMenu(TableView tableView){
 
         ContextMenu menu = new ContextMenu();
-
 
         MenuItem selectMode = new MenuItem("선택모드 변경");
         selectMode.setOnAction(event -> {
@@ -50,8 +49,6 @@ public class TableCommonMenuProvider {
         menu.getItems().add(fileExport);
 
         tableView.setContextMenu(menu);
-
-        return menu;
 
     }
 
