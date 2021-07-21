@@ -49,6 +49,8 @@ public class TableCopyAndPasteUtils {
         KeyCodeCombination toEndRight = new KeyCodeCombination(KeyCode.RIGHT, KeyCombination.CONTROL_DOWN , KeyCombination.SHIFT_DOWN);
         KeyCodeCombination toEndTop = new KeyCodeCombination(KeyCode.UP, KeyCombination.CONTROL_DOWN , KeyCombination.SHIFT_DOWN);
         KeyCodeCombination toEndBottom = new KeyCodeCombination(KeyCode.DOWN, KeyCombination.CONTROL_DOWN , KeyCombination.SHIFT_DOWN);
+        //KeyCodeCombination multiSelect = new KeyCodeCombination(KeyCode.SHIFT , MouseEvent.MOUSE_CLICKED)
+
 
         @SuppressWarnings("rawtypes")
         private void moveToEnd(TableView tableView, KeyEvent event ){

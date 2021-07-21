@@ -96,8 +96,8 @@ public class LayoutController implements Initializable {
 
     public void btn2Action(MouseEvent actionEvent) throws IOException {
 
-        //addProgressListener(rootPane);
-
+        //Pane 교체하면서 GC 실행.
+        //Memory Leak 방지
         System.gc();
 
         FxmlScene fxmlScene = FxmlScene.builder().url("/fxml/replace/content2.fxml").build();
@@ -115,7 +115,7 @@ public class LayoutController implements Initializable {
 
         List<ContentExtendType> list = new ArrayList<>();
 
-        for(long i = 0 ; i < 10000 ; i++){
+       /* for(long i = 0 ; i < 1000 ; i++){
 
             list.add(
                     ContentExtendType.builder()
@@ -132,9 +132,9 @@ public class LayoutController implements Initializable {
                             .content6("content6_"+i)
                             .build()
             );
-        }
+        }*/
 
-        controller.initListData(list);
+        //controller.initListData(list);
     }
 
     public void btn3Action(MouseEvent actionEvent){

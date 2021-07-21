@@ -55,6 +55,9 @@ public class Content2Controller extends DataController {
     @FXML public ProgressBar progressBar;
     @FXML public AnchorPane topAnchorPane;
 
+
+
+
     private Thread th;
 
     @Override
@@ -146,7 +149,9 @@ public class Content2Controller extends DataController {
             public void handle(MouseEvent event) {
 
                 if(event.isShiftDown()){
+
                     extractedSelectedMulti();
+
                     event.consume();
                 }else{
                     tab3Table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
