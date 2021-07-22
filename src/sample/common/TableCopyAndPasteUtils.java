@@ -6,10 +6,7 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TablePosition;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.input.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,7 +19,12 @@ import java.util.TreeSet;
 @Slf4j
 public class TableCopyAndPasteUtils {
     private static final NumberFormat numberFormatter = NumberFormat.getNumberInstance();
-
+    private static final KeyCodeCombination copy = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN);
+    private static final KeyCodeCombination paste = new KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_DOWN);
+    private static final KeyCodeCombination toEndLeft = new KeyCodeCombination(KeyCode.LEFT, KeyCombination.CONTROL_DOWN );
+    private static final KeyCodeCombination toEndRight = new KeyCodeCombination(KeyCode.RIGHT, KeyCombination.CONTROL_DOWN );
+    private static final KeyCodeCombination toEndTop = new KeyCodeCombination(KeyCode.UP, KeyCombination.CONTROL_DOWN );
+    private static final KeyCodeCombination toEndBottom = new KeyCodeCombination(KeyCode.DOWN, KeyCombination.CONTROL_DOWN );
 
     /**
      * Install the keyboard handler:
@@ -35,6 +37,18 @@ public class TableCopyAndPasteUtils {
         // install copy/paste keyboard handler
         table.setOnKeyPressed(new TableKeyEventHandler());
 
+        table.setOnKeyReleased(new TableKeyReleasedHandler());
+    }
+
+    public static class TableKeyReleasedHandler implements EventHandler<KeyEvent>{
+        @Override
+        public void handle(KeyEvent keyEvent) {
+            if(keyEvent.isShiftDown()){
+                if( keyEvent.getSource() instanceof TableView) {
+                    ((TableView<?>) keyEvent.getSource()).getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+                }
+            }
+        }
     }
 
     /**
@@ -42,13 +56,6 @@ public class TableCopyAndPasteUtils {
      * The handler uses the keyEvent's source for the clipboard data. The source must be of type TableView.
      */
     public static class TableKeyEventHandler implements EventHandler<KeyEvent> {
-
-        KeyCodeCombination copy = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN);
-        KeyCodeCombination paste = new KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_DOWN);
-        KeyCodeCombination toEndLeft = new KeyCodeCombination(KeyCode.LEFT, KeyCombination.CONTROL_DOWN , KeyCombination.SHIFT_DOWN);
-        KeyCodeCombination toEndRight = new KeyCodeCombination(KeyCode.RIGHT, KeyCombination.CONTROL_DOWN , KeyCombination.SHIFT_DOWN);
-        KeyCodeCombination toEndTop = new KeyCodeCombination(KeyCode.UP, KeyCombination.CONTROL_DOWN , KeyCombination.SHIFT_DOWN);
-        KeyCodeCombination toEndBottom = new KeyCodeCombination(KeyCode.DOWN, KeyCombination.CONTROL_DOWN , KeyCombination.SHIFT_DOWN);
 
         @SuppressWarnings("rawtypes")
         private void moveToEnd(TableView tableView, KeyEvent event ){
@@ -58,8 +65,6 @@ public class TableCopyAndPasteUtils {
             int targetIdx;
             TablePosition position = (TablePosition) tableView.getSelectionModel().getSelectedCells().get(0);
             TableColumn column = position.getTableColumn();
-
-
 
             if(toEndBottom.match(event)){
 
@@ -86,6 +91,8 @@ public class TableCopyAndPasteUtils {
             event.consume();
         }
 
+
+
         public void handle(final KeyEvent keyEvent) {
 
             if (copy.match(keyEvent)) {
@@ -103,13 +110,16 @@ public class TableCopyAndPasteUtils {
                     // event is handled, consume it
                     keyEvent.consume();
                 }
-            }else if(keyEvent.isShiftDown() && keyEvent.isControlDown()){
+            }else{
 
                 if( keyEvent.getSource() instanceof TableView) {
-                    moveToEnd((TableView<?>) keyEvent.getSource() , keyEvent);
-                    keyEvent.consume();
+                    if(keyEvent.isControlDown()){
+                        moveToEnd((TableView<?>) keyEvent.getSource() , keyEvent);
+                    }else if(keyEvent.isShiftDown()){
+                        ((TableView<?>) keyEvent.getSource()).getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+                    }
                 }
-
+                keyEvent.consume();
             }
 
         }

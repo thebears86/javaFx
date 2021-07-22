@@ -175,7 +175,7 @@ public class Content2Controller extends DataController {
 
         changeTableEditMode(false);
         //tab3Table.getSelectionModel().setCellSelectionEnabled(true);
-        tab3Table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
 
         final int idx = tab3Table.getSelectionModel().getFocusedIndex();
 
