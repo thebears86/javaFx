@@ -9,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
 import lombok.extern.slf4j.Slf4j;
+import sample.model.ContentExtendType;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -67,14 +68,14 @@ public class TableCopyAndPasteUtils {
             TableColumn column = position.getTableColumn();
 
             if(toEndBottom.match(event)){
-
-                targetIdx = tableView.getItems().size();
-
+                targetIdx = tableView.getItems().size() - 1;
                 moveCellSelect(tableView, isCellMode, targetIdx, column);
-
             }
             else if(toEndTop.match(event)){
                 targetIdx = 1;
+
+
+
                 moveCellSelect(tableView, isCellMode, targetIdx, column);
             }
             else if(toEndLeft.match(event)){
@@ -131,7 +132,6 @@ public class TableCopyAndPasteUtils {
 
         if (isCellMode) {
             tableView.getSelectionModel().select(targetIdx, column);
-
         } else {
             tableView.getSelectionModel().select(targetIdx);
         }

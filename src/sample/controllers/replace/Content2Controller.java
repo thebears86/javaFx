@@ -1,6 +1,7 @@
 package sample.controllers.replace;
 
 import javafx.application.Platform;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -108,38 +109,45 @@ public class Content2Controller extends DataController {
          */
         TableCommonMenuProvider.addContextMenu(tab3Table);
 
-        /*
-         * Set Table Cell Config
-         */
-        rowNum.setCellValueFactory      (cellData -> cellData.getValue().getRowNum());
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                /*
+                 * Set Table Cell Config
+                 */
+                rowNum.setCellValueFactory      (cellData -> cellData.getValue().getRowNum());
 
-        isbn.setCellValueFactory        (cellData -> cellData.getValue().getIsbn());
-        //수정가능한 셀을 위한 TextField Set
-        isbn.setCellFactory(TextFieldTableCell.forTableColumn());
+                isbn.setCellValueFactory        (cellData -> cellData.getValue().getIsbn());
+                //수정가능한 셀을 위한 TextField Set
+                isbn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        bookName.setCellValueFactory    (cellData -> cellData.getValue().getBookName());
-        //수정가능한 셀을 위한 TextField Set
-        bookName.setCellFactory(TextFieldTableCell.forTableColumn());
+                bookName.setCellValueFactory    (cellData -> cellData.getValue().getBookName());
+                //수정가능한 셀을 위한 TextField Set
+                bookName.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        publisher.setCellValueFactory   (cellData -> cellData.getValue().getPublisher());
-        //수정가능한 셀을 위한 TextField Set
-        publisher.setCellFactory(TextFieldTableCell.forTableColumn());
+                publisher.setCellValueFactory   (cellData -> cellData.getValue().getPublisher());
+                //수정가능한 셀을 위한 TextField Set
+                publisher.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        data1.setCellValueFactory       (cellData -> cellData.getValue().getData1());
-        regDate.setCellValueFactory     (cellData -> cellData.getValue().getRegDate());
-        regTime.setCellValueFactory     (cellData -> cellData.getValue().getRegTime());
+                data1.setCellValueFactory       (cellData -> cellData.getValue().getData1());
+                regDate.setCellValueFactory     (cellData -> cellData.getValue().getRegDate());
+                regTime.setCellValueFactory     (cellData -> cellData.getValue().getRegTime());
 
-        /*
-         * Set TableView Config
-         */
-        tab3Table.setOnMouseClicked(cellEditHandler());
-        //테이블 Copy & Paste 이벤트 설정.
-        TableCopyAndPasteUtils.installCopyPasteHandler(tab3Table);
+                /*
+                 * Set TableView Config
+                 */
+                tab3Table.setOnMouseClicked(cellEditHandler());
+                //테이블 Copy & Paste 이벤트 설정.
+                TableCopyAndPasteUtils.installCopyPasteHandler(tab3Table);
 
-        //Cell 수정 후 TableView 다시 포커스 이벤트 설정.
-        tab3Table.getColumns().forEach(x->{
-            x.addEventHandler(TableColumn.CellEditEvent.ANY , event -> tableFocusResume());
+                //Cell 수정 후 TableView 다시 포커스 이벤트 설정.
+                tab3Table.getColumns().forEach(x->{
+                    x.addEventHandler(TableColumn.CellEditEvent.ANY , event -> tableFocusResume());
+                });
+            }
         });
+
+
         //테이블 선택모드 셋팅
         //tab3Table.getSelectionModel().setCellSelectionEnabled(true);
 
