@@ -1,7 +1,11 @@
 package sample.controllers.replace;
 
 import javafx.application.Platform;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableListBase;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -34,6 +38,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class Content2Controller extends DataController {
     @FXML public Button changedBtn;
+    /*
+     * Tab3 Table Part
+     */
     @FXML public TableColumn<Content2Model , Long> rowNum;
     @FXML public TableColumn<Content2Model , String> isbn;
     @FXML public TableColumn<Content2Model , String> bookName;
@@ -41,15 +48,19 @@ public class Content2Controller extends DataController {
     @FXML public TableColumn<Content2Model , String> data1;
     @FXML public TableColumn<Content2Model , LocalDate> regDate;
     @FXML public TableColumn<Content2Model , LocalTime> regTime;
-
     @FXML public TableColumn<ContentExtendType , String> content1;
     @FXML public TableColumn<ContentExtendType , String> content2;
     @FXML public TableColumn<ContentExtendType , String> content3;
     @FXML public TableColumn<ContentExtendType , String> content4;
     @FXML public TableColumn<ContentExtendType , String> content5;
     @FXML public TableColumn<ContentExtendType , String> content6;
-
     @FXML public TableView<ContentExtendType> tab3Table;
+
+    private final ObservableList<ContentExtendType> tab3TableList = FXCollections.observableArrayList();
+
+
+
+
 
     @FXML public MenuItem copyMenu;
     @FXML public ProgressBar progressBar;
@@ -63,6 +74,9 @@ public class Content2Controller extends DataController {
     @Override
     public void initListData(List<?> list) {
 
+        tab3TableList.addListener(new MyListChangeListener());
+
+
         if(list.isEmpty()){
             return;
         }
@@ -73,7 +87,10 @@ public class Content2Controller extends DataController {
 
         List<ContentExtendType> targetList = (List<ContentExtendType>) list;
 
-        tab3Table.getItems().addAll(targetList);
+        tab3TableList.addAll(targetList);
+
+        tab3Table.getItems().setAll(tab3TableList);
+
     }
 
     @Override
@@ -95,38 +112,45 @@ public class Content2Controller extends DataController {
          */
         TableCommonMenuProvider.addContextMenu(tab3Table);
 
-        /*
-         * Set Table Cell Config
-         */
-        rowNum.setCellValueFactory      (cellData -> cellData.getValue().getRowNum());
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                /*
+                 * Set Table Cell Config
+                 */
+                rowNum.setCellValueFactory      (cellData -> cellData.getValue().getRowNum());
 
-        isbn.setCellValueFactory        (cellData -> cellData.getValue().getIsbn());
-        //수정가능한 셀을 위한 TextField Set
-        isbn.setCellFactory(TextFieldTableCell.forTableColumn());
+                isbn.setCellValueFactory        (cellData -> cellData.getValue().getIsbn());
+                //수정가능한 셀을 위한 TextField Set
+                isbn.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        bookName.setCellValueFactory    (cellData -> cellData.getValue().getBookName());
-        //수정가능한 셀을 위한 TextField Set
-        bookName.setCellFactory(TextFieldTableCell.forTableColumn());
+                bookName.setCellValueFactory    (cellData -> cellData.getValue().getBookName());
+                //수정가능한 셀을 위한 TextField Set
+                bookName.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        publisher.setCellValueFactory   (cellData -> cellData.getValue().getPublisher());
-        //수정가능한 셀을 위한 TextField Set
-        publisher.setCellFactory(TextFieldTableCell.forTableColumn());
+                publisher.setCellValueFactory   (cellData -> cellData.getValue().getPublisher());
+                //수정가능한 셀을 위한 TextField Set
+                publisher.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        data1.setCellValueFactory       (cellData -> cellData.getValue().getData1());
-        regDate.setCellValueFactory     (cellData -> cellData.getValue().getRegDate());
-        regTime.setCellValueFactory     (cellData -> cellData.getValue().getRegTime());
+                data1.setCellValueFactory       (cellData -> cellData.getValue().getData1());
+                regDate.setCellValueFactory     (cellData -> cellData.getValue().getRegDate());
+                regTime.setCellValueFactory     (cellData -> cellData.getValue().getRegTime());
 
-        /*
-         * Set TableView Config
-         */
-        tab3Table.setOnMouseClicked(cellEditHandler());
-        //테이블 Copy & Paste 이벤트 설정.
-        TableCopyAndPasteUtils.installCopyPasteHandler(tab3Table);
+                /*
+                 * Set TableView Config
+                 */
+                tab3Table.setOnMouseClicked(cellEditHandler());
+                //테이블 Copy & Paste 이벤트 설정.
+                TableCopyAndPasteUtils.installCopyPasteHandler(tab3Table);
 
-        //Cell 수정 후 TableView 다시 포커스 이벤트 설정.
-        tab3Table.getColumns().forEach(x->{
-            x.addEventHandler(TableColumn.CellEditEvent.ANY , event -> tableFocusResume());
+                //Cell 수정 후 TableView 다시 포커스 이벤트 설정.
+                tab3Table.getColumns().forEach(x->{
+                    x.addEventHandler(TableColumn.CellEditEvent.ANY , event -> tableFocusResume());
+                });
+            }
         });
+
+
         //테이블 선택모드 셋팅
         //tab3Table.getSelectionModel().setCellSelectionEnabled(true);
 
@@ -180,7 +204,7 @@ public class Content2Controller extends DataController {
 
         changeTableEditMode(false);
         //tab3Table.getSelectionModel().setCellSelectionEnabled(true);
-        tab3Table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
 
         final int idx = tab3Table.getSelectionModel().getFocusedIndex();
 
@@ -234,6 +258,30 @@ public class Content2Controller extends DataController {
     }
 
 
+    private static class MyListChangeListener implements ListChangeListener<ContentExtendType>{
+        @Override
+        public void onChanged(Change<? extends ContentExtendType> change) {
+
+            System.out.println("list size = " + change.getList().size());
+
+            if(!change.next()){
+                return;
+            }
+
+            if(change.wasAdded()){
+                System.out.println("list getAddedSize = " + change.getAddedSize());
+            }
+
+            System.out.println("list getFrom = " + change.getFrom());
+
+
+
+        }
+    }
+
+
+
+
     public void progressAuto(){
 
         /*Thread th = Thread.*/
@@ -257,7 +305,7 @@ public class Content2Controller extends DataController {
                     });
 
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(10);
                     } catch (InterruptedException e){
                         //e.printStackTrace();
                         this.isRun = false;
