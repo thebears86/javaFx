@@ -294,6 +294,8 @@ public class TableCopyAndPasteUtils {
                 int rowTable = pasteCellPosition.getRow() + rowClipboard;
                 int colTable = pasteCellPosition.getColumn() + colClipboard;
 
+                // TODO: 붙여넣기 할 때 마지막 Row 이상일 경우 붙여넣기?
+                // TODO: 붙여넣기 할 때 마지막 Cell 이상일 경우 에러처리?
                 // skip if we reached the end of the table
                 if( rowTable >= table.getItems().size()) {
                     continue;

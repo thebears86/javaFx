@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,6 +15,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import model.FxmlScene;
 
@@ -37,6 +39,10 @@ public class HomeController implements Initializable {
     private Scene scene;
     private Parent root;
     @FXML private AnchorPane content;
+
+    private final Rectangle2D bounds = Screen.getScreens().get(0).getVisualBounds();
+    private final double monitorWidth = bounds.getWidth();
+    private final double monitorHeight = bounds.getHeight();
 
 
     @FXML
@@ -108,6 +114,13 @@ public class HomeController implements Initializable {
                 stage = new Stage();
                 scene = new Scene(root);
                 stage.setScene(scene);
+                stage.setX(bounds.getMinX());
+                stage.setY(bounds.getMinY());
+                //stage.setWidth(monitorWidth);
+                //stage.setHeight(monitorHeight);
+                stage.setMaximized(true);
+
+
                 stage.getIcons().add(new Image("icons/icon.png"));
                 stage.initModality(fxml.getModality());
 
