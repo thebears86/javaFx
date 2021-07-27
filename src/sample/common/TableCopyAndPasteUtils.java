@@ -26,6 +26,7 @@ public class TableCopyAndPasteUtils {
     private static final KeyCodeCombination toEndRight = new KeyCodeCombination(KeyCode.RIGHT, KeyCombination.CONTROL_DOWN );
     private static final KeyCodeCombination toEndTop = new KeyCodeCombination(KeyCode.UP, KeyCombination.CONTROL_DOWN );
     private static final KeyCodeCombination toEndBottom = new KeyCodeCombination(KeyCode.DOWN, KeyCombination.CONTROL_DOWN );
+    //private static final KeyCharacterCombination test = new KeyCharacterCombination(KeyCombination.)
 
     /**
      * Install the keyboard handler:
@@ -45,8 +46,11 @@ public class TableCopyAndPasteUtils {
         @Override
         public void handle(KeyEvent keyEvent) {
             if(keyEvent.isShiftDown()){
-                if( keyEvent.getSource() instanceof TableView) {
-                    ((TableView<?>) keyEvent.getSource()).getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+                TableView.TableViewSelectionModel<?> selectionModel = ((TableView<?>) keyEvent.getSource()).getSelectionModel();
+
+                if(selectionModel.getSelectionMode().equals(SelectionMode.MULTIPLE)){
+                    selectionModel.setSelectionMode(SelectionMode.SINGLE);
                 }
             }
         }
@@ -73,9 +77,6 @@ public class TableCopyAndPasteUtils {
             }
             else if(toEndTop.match(event)){
                 targetIdx = 1;
-
-
-
                 moveCellSelect(tableView, isCellMode, targetIdx, column);
             }
             else if(toEndLeft.match(event)){
@@ -85,7 +86,9 @@ public class TableCopyAndPasteUtils {
             }
             else if(toEndRight.match(event)){
                 targetIdx = selectedIndex;
-                TableColumn lastColumn = (TableColumn) tableView.getColumns().get(tableView.getColumns().size()-1);
+                int count = tableView.getVisibleLeafColumns().size();
+
+                TableColumn lastColumn = (TableColumn) tableView.getVisibleLeafColumns().stream().skip(count - 1).findFirst().get();
                 moveCellSelect(tableView, isCellMode, targetIdx, lastColumn);
             }
 
@@ -117,7 +120,13 @@ public class TableCopyAndPasteUtils {
                     if(keyEvent.isControlDown()){
                         moveToEnd((TableView<?>) keyEvent.getSource() , keyEvent);
                     }else if(keyEvent.isShiftDown()){
-                        ((TableView<?>) keyEvent.getSource()).getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+                        TableView.TableViewSelectionModel<?> selectionModel = ((TableView<?>) keyEvent.getSource()).getSelectionModel();
+
+                        if(selectionModel.getSelectionMode().equals(SelectionMode.SINGLE)){
+                            selectionModel.setSelectionMode(SelectionMode.MULTIPLE);
+                        }
+
                     }
                 }
                 keyEvent.consume();
