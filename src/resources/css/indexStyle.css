@@ -7,6 +7,11 @@
 {
     -fx-text-fill : #432FA0;
 }
+.button1:focused .button1:selected .button1:visited
+{
+    -fx-text-fill : #432FA0;
+}
+
 .button1:pressed
 {
     -fx-background-color : #2F2B43 ;

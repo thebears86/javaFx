@@ -74,6 +74,12 @@ public class HomeController implements Initializable {
             fxml.applicationPop();
             loadStage(fxml, mouseEvent);
 
+        } else if (mouseEvent.getSource() == btnUpdate) {
+
+            fxml = FxmlScene.builder().url("/fxml/pop/dataForm.fxml").build();
+            fxml.windowPop();
+            loadStage(fxml, mouseEvent);
+
         }
 
 
@@ -114,12 +120,15 @@ public class HomeController implements Initializable {
                 stage = new Stage();
                 scene = new Scene(root);
                 stage.setScene(scene);
+
+
+
                 stage.setX(bounds.getMinX());
                 stage.setY(bounds.getMinY());
                 //stage.setWidth(monitorWidth);
                 //stage.setHeight(monitorHeight);
-                stage.setMaximized(true);
-
+                //stage.setMaximized(true);
+                stage.setResizable(false);
 
                 stage.getIcons().add(new Image("icons/icon.png"));
                 stage.initModality(fxml.getModality());
