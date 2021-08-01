@@ -80,6 +80,10 @@ public class HomeController implements Initializable {
             fxml.windowPop();
             loadStage(fxml, mouseEvent);
 
+        } else if(mouseEvent.getSource() == btnClasses){
+            fxml = FxmlScene.builder().url("/fxml/market/market.fxml").build();
+            fxml.applicationPop();
+            loadStage(fxml, mouseEvent);
         }
 
 
