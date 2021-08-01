@@ -12,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import sample.defaultConfig.DefaultConfig;
 import sample.model.market.Fruit;
 
 import java.io.IOException;
@@ -25,7 +26,7 @@ import java.util.ResourceBundle;
 
 public class MarketController implements Initializable {
 
-    public static final String CURRENCY = "$";
+
 
     @FXML
     private VBox chosenFruitCard;
@@ -55,6 +56,8 @@ public class MarketController implements Initializable {
         fruit = new Fruit();
         fruit.setName("Kiwi");
         fruit.setPrice(2.99);
+        //TODO Handle Url Image
+        //fruit.setImgSrc("http://file3.instiz.net/data/file3/2018/02/26/8/c/d/8cdfb988a83db43892488e3abc85d081.jpg");
         fruit.setImgSrc("/icons/marketImg/kiwi.png");
         fruit.setColor("6A7324");
         fruits.add(fruit);
@@ -127,10 +130,16 @@ public class MarketController implements Initializable {
 
     private void setChosenFruit(Fruit fruit) {
         fruitNameLable.setText(fruit.getName());
-        fruitPriceLabel.setText(CURRENCY + fruit.getPrice());
+        fruitPriceLabel.setText(DefaultConfig.CURRENCY + fruit.getPrice());
         InputStream resourceAsStream = getClass().getResourceAsStream(fruit.getImgSrc());
+        Image image;
 
-        Image image = new Image(resourceAsStream);
+        if(null == resourceAsStream ){
+            image = new Image(resourceAsStream);
+        }else{
+            image = new Image(resourceAsStream);
+        }
+
 
 
         fruitImg.setImage(image);

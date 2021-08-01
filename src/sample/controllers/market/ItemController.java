@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import sample.defaultConfig.DefaultConfig;
 import sample.model.market.Fruit;
 
 import java.io.InputStream;
@@ -15,7 +16,7 @@ public class ItemController {
     @FXML private Label priceLabel;
     @FXML private ImageView img;
 
-    private final static String defaultImagePath = "/icons/marketImg/zg3n4gcd.jpg";
+
 
     @FXML
     private void click(MouseEvent mouseEvent) {
@@ -29,14 +30,14 @@ public class ItemController {
         this.fruit = fruit;
         this.myListener = myListener;
         nameLabel.setText(fruit.getName());
-        priceLabel.setText(MarketController.CURRENCY + fruit.getPrice());
+        priceLabel.setText(DefaultConfig.CURRENCY + fruit.getPrice());
 
         try {
             Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(fruit.getImgSrc())));
             img.setImage(image);
 
         } catch (Exception e){
-            Image defaultImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream(defaultImagePath)));
+            Image defaultImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream(DefaultConfig.defaultImagePath)));
             img.setImage(defaultImage);
         }
 
