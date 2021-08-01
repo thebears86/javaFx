@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.StringWriter;
+import java.util.Locale;
 import java.util.Objects;
 
 public class Main extends Application {
@@ -22,19 +23,35 @@ public class Main extends Application {
     private double yOffset = 0;
 
 
+    public void settingLocale(){
+        Locale.setDefault(getLocale(Locale.getDefault()));
+    }
+
+    public Locale getLocale(Locale locale) {
+        if (locale == null) {
+            locale = new Locale(System.getProperty("user.language"), System.getProperty("user.country"));
+
+        }
+        return locale;
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
 
+        //Set Locale for datePicker.
+        settingLocale();
+        //Locale.setDefault(Locale.KOREAN);
+
+
+
+
         Thread.setDefaultUncaughtExceptionHandler(Main::showError);
-
-
-
 
 
         System.setProperty("prism.lcdtext", "false"); // 폰트파일 로드전에 실행
         Font.loadFont(getClass().getResourceAsStream("/font/NanumSquareR.ttf"), 10);
         Font.loadFont(getClass().getResourceAsStream("/font/NanumGothic.ttf"), 10);
+
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/index/Index.fxml")));
 

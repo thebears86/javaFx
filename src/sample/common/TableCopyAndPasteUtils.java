@@ -6,12 +6,10 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TablePosition;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.input.*;
 import lombok.extern.slf4j.Slf4j;
+import sample.model.ContentExtendType;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -22,7 +20,13 @@ import java.util.TreeSet;
 @Slf4j
 public class TableCopyAndPasteUtils {
     private static final NumberFormat numberFormatter = NumberFormat.getNumberInstance();
-
+    private static final KeyCodeCombination copy = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN);
+    private static final KeyCodeCombination paste = new KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_DOWN);
+    private static final KeyCodeCombination toEndLeft = new KeyCodeCombination(KeyCode.LEFT, KeyCombination.CONTROL_DOWN );
+    private static final KeyCodeCombination toEndRight = new KeyCodeCombination(KeyCode.RIGHT, KeyCombination.CONTROL_DOWN );
+    private static final KeyCodeCombination toEndTop = new KeyCodeCombination(KeyCode.UP, KeyCombination.CONTROL_DOWN );
+    private static final KeyCodeCombination toEndBottom = new KeyCodeCombination(KeyCode.DOWN, KeyCombination.CONTROL_DOWN );
+    //private static final KeyCharacterCombination test = new KeyCharacterCombination(KeyCombination.)
 
     /**
      * Install the keyboard handler:
@@ -35,6 +39,21 @@ public class TableCopyAndPasteUtils {
         // install copy/paste keyboard handler
         table.setOnKeyPressed(new TableKeyEventHandler());
 
+        table.setOnKeyReleased(new TableKeyReleasedHandler());
+    }
+
+    public static class TableKeyReleasedHandler implements EventHandler<KeyEvent>{
+        @Override
+        public void handle(KeyEvent keyEvent) {
+            if(keyEvent.isShiftDown()){
+
+                TableView.TableViewSelectionModel<?> selectionModel = ((TableView<?>) keyEvent.getSource()).getSelectionModel();
+
+                if(selectionModel.getSelectionMode().equals(SelectionMode.MULTIPLE)){
+                    selectionModel.setSelectionMode(SelectionMode.SINGLE);
+                }
+            }
+        }
     }
 
     /**
@@ -42,13 +61,6 @@ public class TableCopyAndPasteUtils {
      * The handler uses the keyEvent's source for the clipboard data. The source must be of type TableView.
      */
     public static class TableKeyEventHandler implements EventHandler<KeyEvent> {
-
-        KeyCodeCombination copy = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN);
-        KeyCodeCombination paste = new KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_DOWN);
-        KeyCodeCombination toEndLeft = new KeyCodeCombination(KeyCode.LEFT, KeyCombination.CONTROL_DOWN , KeyCombination.SHIFT_DOWN);
-        KeyCodeCombination toEndRight = new KeyCodeCombination(KeyCode.RIGHT, KeyCombination.CONTROL_DOWN , KeyCombination.SHIFT_DOWN);
-        KeyCodeCombination toEndTop = new KeyCodeCombination(KeyCode.UP, KeyCombination.CONTROL_DOWN , KeyCombination.SHIFT_DOWN);
-        KeyCodeCombination toEndBottom = new KeyCodeCombination(KeyCode.DOWN, KeyCombination.CONTROL_DOWN , KeyCombination.SHIFT_DOWN);
 
         @SuppressWarnings("rawtypes")
         private void moveToEnd(TableView tableView, KeyEvent event ){
@@ -59,14 +71,9 @@ public class TableCopyAndPasteUtils {
             TablePosition position = (TablePosition) tableView.getSelectionModel().getSelectedCells().get(0);
             TableColumn column = position.getTableColumn();
 
-
-
             if(toEndBottom.match(event)){
-
-                targetIdx = tableView.getItems().size();
-
+                targetIdx = tableView.getItems().size() - 1;
                 moveCellSelect(tableView, isCellMode, targetIdx, column);
-
             }
             else if(toEndTop.match(event)){
                 targetIdx = 1;
@@ -79,12 +86,16 @@ public class TableCopyAndPasteUtils {
             }
             else if(toEndRight.match(event)){
                 targetIdx = selectedIndex;
-                TableColumn lastColumn = (TableColumn) tableView.getColumns().get(tableView.getColumns().size()-1);
+                int count = tableView.getVisibleLeafColumns().size();
+
+                TableColumn lastColumn = (TableColumn) tableView.getVisibleLeafColumns().stream().skip(count - 1).findFirst().get();
                 moveCellSelect(tableView, isCellMode, targetIdx, lastColumn);
             }
 
             event.consume();
         }
+
+
 
         public void handle(final KeyEvent keyEvent) {
 
@@ -103,13 +114,22 @@ public class TableCopyAndPasteUtils {
                     // event is handled, consume it
                     keyEvent.consume();
                 }
-            }else if(keyEvent.isShiftDown() && keyEvent.isControlDown()){
+            }else{
 
                 if( keyEvent.getSource() instanceof TableView) {
-                    moveToEnd((TableView<?>) keyEvent.getSource() , keyEvent);
-                    keyEvent.consume();
-                }
+                    if(keyEvent.isControlDown()){
+                        moveToEnd((TableView<?>) keyEvent.getSource() , keyEvent);
+                    }else if(keyEvent.isShiftDown()){
 
+                        TableView.TableViewSelectionModel<?> selectionModel = ((TableView<?>) keyEvent.getSource()).getSelectionModel();
+
+                        if(selectionModel.getSelectionMode().equals(SelectionMode.SINGLE)){
+                            selectionModel.setSelectionMode(SelectionMode.MULTIPLE);
+                        }
+
+                    }
+                }
+                keyEvent.consume();
             }
 
         }
@@ -121,7 +141,6 @@ public class TableCopyAndPasteUtils {
 
         if (isCellMode) {
             tableView.getSelectionModel().select(targetIdx, column);
-
         } else {
             tableView.getSelectionModel().select(targetIdx);
         }
@@ -284,6 +303,8 @@ public class TableCopyAndPasteUtils {
                 int rowTable = pasteCellPosition.getRow() + rowClipboard;
                 int colTable = pasteCellPosition.getColumn() + colClipboard;
 
+                // TODO: 붙여넣기 할 때 마지막 Row 이상일 경우 붙여넣기?
+                // TODO: 붙여넣기 할 때 마지막 Cell 이상일 경우 에러처리?
                 // skip if we reached the end of the table
                 if( rowTable >= table.getItems().size()) {
                     continue;

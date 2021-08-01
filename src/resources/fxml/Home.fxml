@@ -58,7 +58,7 @@
                             &lt;!&ndash;<FontAwesomeIconView fill="#2d75e8" glyphName="SLIDERS" size="50" />&ndash;&gt;
                         </graphic>-->
                     </Button>
-                    <Button fx:id="btnUpdate" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleButtonClicks" prefHeight="181.0" prefWidth="340.0" stylesheets="@../css/fullpackstyling.css" text="Update" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                    <Button fx:id="btnUpdate" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleButtonClicks" prefHeight="181.0" prefWidth="340.0" stylesheets="@../css/fullpackstyling.css" text="FormPoP" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                         <!--<graphic>
                             &lt;!&ndash;<FontAwesomeIconView fill="#2d75e8" glyphName="EXCHANGE" size="50" />&ndash;&gt;
                         </graphic>-->
