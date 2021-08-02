@@ -4,14 +4,19 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import sample.common.image.ImageLoad;
+import sample.common.image.ImageLoadService;
 import sample.defaultConfig.DefaultConfig;
 import sample.model.market.Fruit;
 
@@ -49,6 +54,9 @@ public class MarketController implements Initializable {
     private final List<Fruit> fruits = new ArrayList<>();
     private MyListener myListener;
 
+    private final ImageLoad imageLoad = new ImageLoadService();
+
+
     private List<Fruit> getData() {
         List<Fruit> fruits = new ArrayList<>();
         Fruit fruit;
@@ -57,8 +65,8 @@ public class MarketController implements Initializable {
         fruit.setName("Kiwi");
         fruit.setPrice(2.99);
         //TODO Handle Url Image
-        //fruit.setImgSrc("http://file3.instiz.net/data/file3/2018/02/26/8/c/d/8cdfb988a83db43892488e3abc85d081.jpg");
-        fruit.setImgSrc("/icons/marketImg/kiwi.png");
+        fruit.setImgSrc("http://file3.instiz.net/data/file3/2018/02/26/8/c/d/8cdfb988a83db43892488e3abc85d081.jpg");
+        //fruit.setImgSrc("/icons/marketImg/kiwi.png");
         fruit.setColor("6A7324");
         fruits.add(fruit);
 
@@ -107,14 +115,14 @@ public class MarketController implements Initializable {
         fruit = new Fruit();
         fruit.setName("Mango");
         fruit.setPrice(0.99);
-        fruit.setImgSrc("/icons/marketImg/mango.png");
+        fruit.setImgSrc("https://2.bp.blogspot.com/-XYIG9FKFz7U/XN2UXrjdeaI/AAAAAAAABlc/LQSDJhL8CE4nalF9a4Y9B9_oa_yYYCVnQCLcBGAs/s1600/qwefv1gq.gif");
         fruit.setColor("FFB605");
         fruits.add(fruit);
 
         fruit = new Fruit();
         fruit.setName("Cherry");
         fruit.setPrice(0.99);
-        fruit.setImgSrc("/icons/marketImg/cherry.png");
+        fruit.setImgSrc("/icons/marketImg/defaultImg.gif");
         fruit.setColor("5F060E");
         fruits.add(fruit);
 
@@ -131,18 +139,9 @@ public class MarketController implements Initializable {
     private void setChosenFruit(Fruit fruit) {
         fruitNameLable.setText(fruit.getName());
         fruitPriceLabel.setText(DefaultConfig.CURRENCY + fruit.getPrice());
-        InputStream resourceAsStream = getClass().getResourceAsStream(fruit.getImgSrc());
-        Image image;
 
-        if(null == resourceAsStream ){
-            image = new Image(resourceAsStream);
-        }else{
-            image = new Image(resourceAsStream);
-        }
+        fruitImg.setImage(imageLoad.loadImage(fruit.getImgSrc()));
 
-
-
-        fruitImg.setImage(image);
         chosenFruitCard.setStyle("-fx-background-color: #" + fruit.getColor() + ";\n" +
                 "    -fx-background-radius: 30;");
     }
@@ -156,8 +155,16 @@ public class MarketController implements Initializable {
             setChosenFruit(fruits.get(0));
             myListener = new MyListener() {
                 @Override
-                public void onClickListener(Fruit fruit) {
-                    setChosenFruit(fruit);
+                public void onClickListener(MouseEvent event , Fruit fruit) {
+
+                    if(event.getButton() == MouseButton.SECONDARY){
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setContentText("마우스 우클릭인가?");
+                        alert.show();
+                    }else if(event.getButton() == MouseButton.PRIMARY){
+                        setChosenFruit(fruit);
+                    }
+
                 }
             };
         }

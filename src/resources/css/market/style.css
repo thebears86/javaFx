@@ -1,3 +1,5 @@
+/*-fx-background-image: url("/icons/marketImg/zg3n4gcd.jpg");*/
+
 .search-box{
     -fx-background-color:#FFFFFF;
     -fx-background-radius: 100;
@@ -48,4 +50,8 @@
 .fruit-item{
     -fx-background-color: #FFFFFF;
     -fx-background-radius: 30;
+}
+
+.fruit-item:hover{
+    -fx-background-color: #D3D3D3;
 }

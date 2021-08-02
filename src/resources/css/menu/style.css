@@ -1,0 +1,27 @@
+
+.leftMenu{
+    -fx-background-color: #4c4c4c;
+}
+
+.deptOne{
+    -fx-background-color: #282828;
+}
+
+.btn-leftMenu{
+    -fx-text-fill: #FFFFFF;
+    -fx-background-color: #4c4c4c;
+    -fx-background-radius: 0em;
+}
+
+.btn-icon-image{
+    -fx-pref-width: 20;
+    -fx-pref-height: 20;
+}
+
+.btn-leftMenu:hover .btn-leftMenu:focused{
+    -fx-background-color: #2f2f2f;
+    -fx-background-radius: 6em;
+    -fx-border-color: #2f2f2f;
+}
+
+

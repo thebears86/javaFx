@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="720.0" prefWidth="1080.0" stylesheets="@../../css/menu/style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.menuExam.MenuMain">
+   <children>
+      <BorderPane layoutX="43.0" layoutY="29.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <left>
+            <VBox prefHeight="400.0" prefWidth="167.0" styleClass="leftMenu" stylesheets="@../../css/menu/style.css" BorderPane.alignment="CENTER">
+               <children>
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="22.0" prefWidth="173.0" styleClass="btn-leftMenu" text="All Item">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" styleClass="btn-icon-image" />
+                     </graphic>
+                     <font>
+                        <Font name="SAPGUI-Icons" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="22.0" prefWidth="173.0" styleClass="btn-leftMenu" text="About">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" styleClass="btn-icon-image" />
+                     </graphic>
+                  </Button>
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="22.0" prefWidth="173.0" styleClass="btn-leftMenu" text="For All">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" styleClass="btn-icon-image" />
+                     </graphic>
+                  </Button>
+                  <Label prefHeight="32.0" prefWidth="167.0" text="Type" textFill="WHITE" />
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="22.0" prefWidth="173.0" styleClass="btn-leftMenu" text="For All">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" styleClass="btn-icon-image" />
+                     </graphic>
+                  </Button>
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="22.0" prefWidth="173.0" styleClass="btn-leftMenu" text="For All">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" styleClass="btn-icon-image" />
+                     </graphic>
+                  </Button>
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="22.0" prefWidth="173.0" styleClass="btn-leftMenu" text="For All">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" styleClass="btn-icon-image" />
+                     </graphic>
+                  </Button>
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="22.0" prefWidth="173.0" styleClass="btn-leftMenu" text="For All">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" styleClass="btn-icon-image" />
+                     </graphic>
+                  </Button>
+                  <Label prefHeight="32.0" prefWidth="167.0" text="Type" textFill="WHITE" />
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="22.0" prefWidth="173.0" styleClass="btn-leftMenu" text="For All">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" styleClass="btn-icon-image" />
+                     </graphic>
+                  </Button>
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="22.0" prefWidth="173.0" styleClass="btn-leftMenu" text="For All">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" styleClass="btn-icon-image" />
+                     </graphic>
+                  </Button>
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="22.0" prefWidth="173.0" styleClass="btn-leftMenu" text="For All">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" styleClass="btn-icon-image" />
+                     </graphic>
+                  </Button>
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="22.0" prefWidth="173.0" styleClass="btn-leftMenu" text="For All">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" styleClass="btn-icon-image" />
+                     </graphic>
+                  </Button>
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="22.0" prefWidth="173.0" styleClass="btn-leftMenu" text="For All">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" styleClass="btn-icon-image" />
+                     </graphic>
+                  </Button>
+               </children>
+            </VBox>
+         </left>
+         <center>
+            <VBox fillWidth="false" prefHeight="726.0" prefWidth="514.0" styleClass="deptOne" BorderPane.alignment="CENTER" />
+         </center>
+         <right>
+            <Pane prefHeight="400.0" prefWidth="214.0" styleClass="deptOne" stylesheets="@../../css/menu/style.css" BorderPane.alignment="CENTER" />
+         </right>
+      </BorderPane>
+   </children>
+</AnchorPane>

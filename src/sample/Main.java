@@ -6,16 +6,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lombok.extern.slf4j.Slf4j;
 
-import java.io.StringWriter;
 import java.util.Locale;
 import java.util.Objects;
 
+@Slf4j
 public class Main extends Application {
 
     //define your offsets here
@@ -93,16 +93,15 @@ public class Main extends Application {
 
         e.printStackTrace();
 
-        System.out.println(e.getMessage());
-        System.out.println("===================================================");
-        System.out.println(e.getCause().getMessage());
-        System.out.println("===================================================");
-        System.out.println(e.getCause().getCause().getMessage());
-        System.out.println("===================================================");
-        System.out.println(e.getLocalizedMessage());
-        System.out.println("===================================================");
-        System.out.println(e.getCause().getLocalizedMessage());
-
+        log.error(e.getMessage());
+        log.error("===================================================");
+        log.error(e.getCause().getMessage());
+        log.error("===================================================");
+        log.error(e.getCause().getCause().getMessage());
+        log.error("===================================================");
+        log.error(e.getLocalizedMessage());
+        log.error("===================================================");
+        log.error(e.getCause().getLocalizedMessage());
 
 
         Alert alert = new Alert(Alert.AlertType.ERROR);
